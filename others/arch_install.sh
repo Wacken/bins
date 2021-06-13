@@ -1,6 +1,6 @@
 #!/usr/bin/sh
 
-#tiny URL: https://tinyurl.com/yrxsezjs
+#tiny URL: https://tinyurl.com/e4nx66fm
 
 if ! ls /sys/firmware/efi/efivars >/dev/null; then
 	echo "The System didn't boot in EFI mode"
