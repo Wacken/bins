@@ -1,5 +1,7 @@
 #!/usr/bin/sh
 
+#tiny URL: https://tinyurl.com/yrxsezjs
+
 if ! ls /sys/firmware/efi/efivars >/dev/null; then
 	echo "The System didn't boot in EFI mode"
 	exit 1
@@ -61,3 +63,22 @@ else
 	parted -s $partition mkpart primary ext4 $swapEnd $rootSizeEnd
     parted -s $partition mkpart primary ext4 $rootSizeEnd 100%
 fi
+
+mkfs.vfat ${partition}1
+mkswap ${partition}2
+swapon ${partition}2
+mkfs.ext4 ${partition}3
+mkfs.ext4 ${partition}4
+
+mkdir /mnt
+mount ${partition}3 /mnt
+mkdir /mnt/efi
+mount ${partition}1 /mnt/efi
+mkdir /mnt/home/
+mount ${partition}4 /mnt/home
+
+pacstrap /mnt base linux linux-firmware
+
+genfstab -U /mnt >> /mnt/etc/fstab
+
+modprobe efivarfs
