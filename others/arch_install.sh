@@ -44,7 +44,7 @@ else
 	ramSize=$(free -ht | sed -n 2p | tr -s ' ' | cut -d' ' -f2 | tr -d '[:alpha:]')
 	ramSizeSquare=$(echo "sqrt($ramSize) + 1" | bc)
 	ramSizeHibernation=$(($ramSizeSquare + $ramSize))
-	swapEnd=$((513 + $ramSizeSquare * 1024))MB
+	swapEnd=$((261 + $ramSizeSquare * 1000))MiB
 
 	echo "swap Ends at $swapEnd"
 	toSearchDisk=$(basename $partition)
@@ -56,17 +56,19 @@ else
 		rootSizeFormated=40
 	fi
 
-	rootSizeEnd=$((${swapEnd//[[:alpha:]]/} + $rootSizeFormated * 1024))MB
+	rootSizeEnd=$((${swapEnd//[[:alpha:]]/} + $rootSizeFormated * 1000))MiB
 
 	echo "root Ends at $rootSizeEnd"
 	parted -s $partition mklabel gpt
-	parted -s $partition mkpart primary fat32 1MB 513MB
-	parted -s $partition mkpart primary linux-swap 513MB $swapEnd
-	parted -s $partition mkpart primary ext4 $swapEnd $rootSizeEnd
-    parted -s $partition mkpart primary ext4 $rootSizeEnd 100%
+
+	parted -s $partition mkpart "EFI system partition" fat32 1MiB 261MiB
+	parted -s $partition set 1 esp on
+	parted -s $partition mkpart "swap partition" linux-swap 261MiB $swapEnd
+	parted -s $partition mkpart "root partition" ext4 $swapEnd $rootSizeEnd
+    parted -s $partition mkpart "home partition" ext4 $rootSizeEnd 100%
 fi
 
-mkfs.vfat ${partition}1
+mkfs.fat -F32 ${partition}1
 mkswap ${partition}2
 swapon ${partition}2
 mkfs.ext4 ${partition}3
