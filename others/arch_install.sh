@@ -46,6 +46,7 @@ else
 	ramSizeHibernation=$(($ramSizeSquare + $ramSize))
 	swapEnd=$((513 + $ramSizeSquare * 1024))MB
 
+	echo "swap Ends at $swapEnd"
 	toSearchDisk=$(basename $partition)
 	diskSize=$(lsblk | grep "$toSearchDisk\b" | tr -s ' ' | cut -d' ' -f4 | tr -d '[:alpha:]')
 	rootSizeFormated=$(printf "%.0d" $(echo "$diskSize * 0.25" | bc))
@@ -57,6 +58,7 @@ else
 
 	rootSizeEnd=$((${swapEnd//[[:alpha:]]/} + $rootSizeFormated * 1024))MB
 
+	echo "root Ends at $rootSizeEnd"
 	parted -s $partition mklabel gpt
 	parted -s $partition mkpart primary fat32 1MB 513MB
 	parted -s $partition mkpart primary linux-swap 513MB $swapEnd
