@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/bash
 
 #tiny URL: https://tinyurl.com/e4nx66fm
 
