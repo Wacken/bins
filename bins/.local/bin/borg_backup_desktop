@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-su - wacken
-~/.local/bin/borg_backup "/data"
+su -c '(~/.local/bin/borg_backup "/data")' wacken

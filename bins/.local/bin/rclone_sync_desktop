@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-su - wacken
-rclone sync -P /data/Pictures/Shared main:Pictures &
-rclone sync -P /data/Documents main:Documents &
-rclone sync -P /data/Books books:Books &
+
+su -c '(rclone sync -P /data/Pictures/Shared main:Pictures & rclone sync -P /data/Documents main:Documents & rclone sync -P /data/Books books:Books &)' wacken

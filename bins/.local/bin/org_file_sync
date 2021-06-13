@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-(
-    cd /home/wacken/Files/Org
-    /home/wacken/.local/bin/git-sync
-)
+su -c '(cd ~/Files/Org;~/.local/bin/git-sync)' wacken
