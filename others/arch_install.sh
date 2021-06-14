@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#tiny URL: https://tinyurl.com/e4nx66fm
+#to download: curl -LO https://tinyurl.com/e4nx66fm -o arch_install.sh
 
 if ! ls /sys/firmware/efi/efivars >/dev/null; then
 	echo "The System didn't boot in EFI mode"
@@ -27,7 +27,7 @@ if [ -z "$3" ]; then
 	echo "Enter Hostname:"
 	read hostname
 else
-	hostname=$4
+	hostname=$3
 fi
 
 timedatectl set-ntp true
@@ -45,8 +45,8 @@ else
 	ramSizeSquare=$(echo "sqrt($ramSize) + 1" | bc)
 	ramSizeHibernation=$(($ramSizeSquare + $ramSize))
 	swapEnd=$((261 + $ramSizeSquare * 1000))MiB
-
 	echo "swap Ends at $swapEnd"
+
 	toSearchDisk=$(basename $partition)
 	diskSize=$(lsblk | grep "$toSearchDisk\b" | tr -s ' ' | cut -d' ' -f4 | tr -d '[:alpha:]')
 	rootSizeFormated=$(printf "%.0d" $(echo "$diskSize * 0.25" | bc))
@@ -55,10 +55,9 @@ else
 	elif ((rootSizeFormated >= 40)); then
 		rootSizeFormated=40
 	fi
-
 	rootSizeEnd=$((${swapEnd//[[:alpha:]]/} + $rootSizeFormated * 1000))MiB
-
 	echo "root Ends at $rootSizeEnd"
+
 	parted -s $partition mklabel gpt
 
 	parted -s $partition mkpart "EFI system partition" fat32 1MiB 261MiB
@@ -86,3 +85,12 @@ pacstrap /mnt base linux linux-firmware
 genfstab -U /mnt >> /mnt/etc/fstab
 
 modprobe efivarfs
+
+curl -LO https://raw.githubusercontent.com/Wacken/bins/master/others/arch_install_chroot.sh\
+	-o arch_chroot_install.sh
+chmod +x arch_chroot_install.sh
+./arch_chroot_install.sh "$user" "$password" "$fast" "$hostname" "$partition"
+
+umount -R /mnt
+reboot
+pacman -S
