@@ -2,18 +2,8 @@
 
 user=$1
 password=$2
-fast=$3
-partition=$4
-hostname=$5
-
-# if [ "$fast" -eq "1" ]; then
-#     echo 'Setting up mirrors'
-#     cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-#     sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
-#     rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
-# else
-#     echo 'Skipping mirror ranking because fast'
-# fi
+partition=$3
+hostname=$4
 
 echo "time zone settings"
 timedatectl set-ntp true

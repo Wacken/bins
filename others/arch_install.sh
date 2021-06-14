@@ -89,7 +89,7 @@ modprobe efivarfs
 curl -LO https://raw.githubusercontent.com/Wacken/bins/master/others/arch_install_chroot.sh\
 	-o arch_chroot_install.sh
 chmod +x arch_chroot_install.sh
-./arch_chroot_install.sh "$user" "$password" "$fast" "$hostname" "$partition"
+./arch_chroot_install.sh "$user" "$password" "$hostname" "$partition"
 
 umount -R /mnt
 reboot
