@@ -45,6 +45,8 @@ systemctl enable NetworkManager.service
 echo 'Building'
 mkinitcpio -P
 
+echo 'Installing microcode for INTEL, before bootloader'
+pacman -S intel-ucode
 
 echo 'Installing bootloader'
 pacman -S grub efibootmgr --noconfirm
@@ -53,8 +55,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 echo 'Setting up user'
 read -t 1 -n 1000000 discard      # discard previous input
+pacman -S sudo --noconfirm
 echo 'root:'$password | chpasswd
-useradd -m -G wheel $user
+useradd -m -G wheel,audio,video,optical,storage $user
 echo $user:$password | chpasswd
 echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
 
