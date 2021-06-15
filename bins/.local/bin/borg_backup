@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-export BORG_PASSCOMMAND="pass Organication/borg-backup"
+passwd=$(cat <(gpg -d /home/wacken/.gnupg/borg_backup.txt.gpg 2> /dev/null))
+export BORG_PASSPHRASE="$passwd"
 
 MOUNTPOINT="$1"
 if [[ ! -d "$MOUNTPOINT" ]]; then
