@@ -92,5 +92,5 @@ curl -Lo /mnt/arch_install_chroot.sh https://raw.githubusercontent.com/Wacken/bi
 chmod +x arch_install_chroot.sh
 arch-chroot /mnt /bin/bash arch_install_chroot.sh "$user" "$password" "$hostname" "$partition"
 
-# umount -R /mnt
-# reboot
+umount -R /mnt
+poweroff
