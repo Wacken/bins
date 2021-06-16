@@ -62,4 +62,4 @@ useradd -m -G wheel,audio,video,optical,storage $user
 echo $user:$password | chpasswd
 echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
 
-exit
+# exit
