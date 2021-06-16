@@ -20,6 +20,9 @@ echo 'LANG=en_US.UTF-8' > /etc/locale.conf
 echo "set keyboard layout"
 echo 'KEYMAP=dvorak-programmer' > /etc/vconsole.conf
 
+echo "pacman init"
+pacman -Sy
+
 echo "setup hostname"
 echo $hostname > /etc/hostname
 
