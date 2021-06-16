@@ -39,7 +39,7 @@ echo 'Building'
 mkinitcpio -P
 
 echo 'Installing microcode for INTEL, before bootloader'
-pacman -S intel-ucode
+pacman -S intel-ucode --noconfirm
 
 echo 'Installing bootloader'
 pacman -S grub efibootmgr --noconfirm
