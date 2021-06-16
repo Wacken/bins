@@ -2,8 +2,8 @@
 
 user=$1
 password=$2
-partition=$3
-hostname=$4
+hostname=$3
+partition=$4
 
 echo "time zone settings"
 timedatectl set-ntp true
@@ -43,9 +43,20 @@ pacman -S grub efibootmgr --noconfirm
 grub-install --target=x86_64-efi --efi-directory=/efi --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 
+echo 'Install git'
+pacman -S git --noconfirm
+
+echo 'Install ssh'
+pacman -S openssh --noconfirm
+
+# echo 'Install Xorg'
+# pacman -S xorg xorg-xinit xterm --noconfirm
+
 echo 'Setting up user'
 read -t 1 -n 1000000 discard      # discard previous input
+
 pacman -S sudo --noconfirm
+
 echo 'root:'$password | chpasswd
 useradd -m -G wheel,audio,video,optical,storage $user
 echo $user:$password | chpasswd

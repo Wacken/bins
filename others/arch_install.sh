@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#to download: curl -LO https://tinyurl.com/e4nx66fm -o arch_install.sh
+#to download: curl -o arch_install.sh -L https://tinyurl.com/e4nx66fm
 
 if ! ls /sys/firmware/efi/efivars >/dev/null; then
 	echo "The System didn't boot in EFI mode"
@@ -43,28 +43,29 @@ if [ $partition = "n" ] || [ $partition = "N" ]; then
 else
 	ramSize=$(free -ht | sed -n 2p | tr -s ' ' | cut -d' ' -f2 | tr -d '[:alpha:]')
 	ramSizeSquare=$(echo "sqrt($ramSize) + 1" | bc)
-	ramSizeHibernation=$(($ramSizeSquare + $ramSize))
-	swapEnd=$((261 + $ramSizeSquare * 1000))MiB
+	# ramSizeHibernation=$(($ramSizeSquare + $ramSize))
+	swapEnd=$(echo "261 + $ramSizeSquare * 1000" | bc)MiB
 	echo "swap Ends at $swapEnd"
 
 	toSearchDisk=$(basename $partition)
 	diskSize=$(lsblk | grep "$toSearchDisk\b" | tr -s ' ' | cut -d' ' -f4 | tr -d '[:alpha:]')
-	rootSizeFormated=$(printf "%.0d" $(echo "$diskSize * 0.25" | bc))
+	rootSize=$(echo "$diskSize * 0.25" | bc)
+	rootSizeFormated=${float%.*}
 	if ((rootSizeFormated <= 4)); then
 		rootSizeFormated=4
 	elif ((rootSizeFormated >= 40)); then
 		rootSizeFormated=40
 	fi
-	rootSizeEnd=$((${swapEnd//[[:alpha:]]/} + $rootSizeFormated * 1000))MiB
+	rootSizeEnd=$(echo "${swapEnd//[[:alpha:]]/} + $rootSizeFormated * 1000" | bc)MiB
 	echo "root Ends at $rootSizeEnd"
 
 	parted -s $partition mklabel gpt
 
-	parted -s $partition mkpart "EFI system partition" fat32 1MiB 261MiB
+	parted -s $partition mkpart "EFI_system_partition" fat32 1MiB 261MiB
 	parted -s $partition set 1 esp on
-	parted -s $partition mkpart "swap partition" linux-swap 261MiB $swapEnd
-	parted -s $partition mkpart "root partition" ext4 $swapEnd $rootSizeEnd
-    parted -s $partition mkpart "home partition" ext4 $rootSizeEnd 100%
+	parted -s $partition mkpart "swap_partition" linux-swap 261MiB $swapEnd
+	parted -s $partition mkpart "root_partition" ext4 $swapEnd $rootSizeEnd
+    parted -s $partition mkpart "home_partition" ext4 $rootSizeEnd 100%
 fi
 
 mkfs.fat -F32 ${partition}1
@@ -80,17 +81,16 @@ mount ${partition}1 /mnt/efi
 mkdir /mnt/home/
 mount ${partition}4 /mnt/home
 
-# pacstrap /mnt base linux linux-firmware
+pacstrap /mnt base linux linux-firmware
 
-# genfstab -U /mnt >> /mnt/etc/fstab
+genfstab -U /mnt >> /mnt/etc/fstab
 
-# modprobe efivarfs
+modprobe efivarfs
 
-# curl -LO https://raw.githubusercontent.com/Wacken/bins/master/others/arch_install_chroot.sh\
-# 	-o arch_chroot_install.sh
-# chmod +x arch_chroot_install.sh
-# ./arch_chroot_install.sh "$user" "$password" "$hostname" "$partition"
+curl -Lo arch_install_chroot.sh https://raw.githubusercontent.com/Wacken/bins/master/others/arch_install_chroot.sh
+
+chmod +x arch_install_chroot.sh
+./arch_install_chroot.sh "$user" "$password" "$hostname" "$partition"
 
 # umount -R /mnt
 # reboot
-# pacman -S
