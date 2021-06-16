@@ -80,17 +80,17 @@ mount ${partition}1 /mnt/efi
 mkdir /mnt/home/
 mount ${partition}4 /mnt/home
 
-pacstrap /mnt base linux linux-firmware
+# pacstrap /mnt base linux linux-firmware
 
-genfstab -U /mnt >> /mnt/etc/fstab
+# genfstab -U /mnt >> /mnt/etc/fstab
 
-modprobe efivarfs
+# modprobe efivarfs
 
-curl -LO https://raw.githubusercontent.com/Wacken/bins/master/others/arch_install_chroot.sh\
-	-o arch_chroot_install.sh
-chmod +x arch_chroot_install.sh
-./arch_chroot_install.sh "$user" "$password" "$hostname" "$partition"
+# curl -LO https://raw.githubusercontent.com/Wacken/bins/master/others/arch_install_chroot.sh\
+# 	-o arch_chroot_install.sh
+# chmod +x arch_chroot_install.sh
+# ./arch_chroot_install.sh "$user" "$password" "$hostname" "$partition"
 
-umount -R /mnt
-reboot
-pacman -S
+# umount -R /mnt
+# reboot
+# pacman -S
