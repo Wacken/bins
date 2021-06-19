@@ -52,6 +52,13 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 echo 'Install git'
 pacman -S git --noconfirm
+git config --global init.deafultBranch master
+git config --global user.email "sebastianwalchi@gmail.com"
+git config --global user.name "wacken"
+sudo git config --global init.deafultBranch master
+sudo git config --global user.email "sebastianwalchi@gmail.com"
+sudo git config --global user.name "wacken"
+
 
 echo 'Install ssh'
 pacman -S openssh --noconfirm
