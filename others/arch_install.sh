@@ -44,7 +44,7 @@ else
 	ramSize=$(free -ht | sed -n 2p | tr -s ' ' | cut -d' ' -f2 | tr -d '[:alpha:]')
 	ramSizeSquare=$(echo "sqrt($ramSize) + 1" | bc)
 	# ramSizeHibernation=$(($ramSizeSquare + $ramSize))
-	swapEnd=$(echo "261 + $ramSizeSquare * 1000" | bc)MiB
+	swapEnd=$(echo "261 + $ramSizeSquare * 1000" | bc)MB
 	echo "swap Ends at $swapEnd"
 
 	toSearchDisk=$(basename $partition)
@@ -56,7 +56,7 @@ else
 	elif ((rootSizeFormated >= 40)); then
 		rootSizeFormated=40
 	fi
-	rootSizeEnd=$(echo "${swapEnd//[[:alpha:]]/} + $rootSizeFormated * 1000" | bc)MiB
+	rootSizeEnd=$(echo "${swapEnd//[[:alpha:]]/} + $rootSizeFormated * 1000" | bc)MB
 	echo "root Ends at $rootSizeEnd"
 
 	parted -s $partition mklabel gpt
@@ -81,14 +81,13 @@ mount ${partition}1 /mnt/efi
 mkdir /mnt/home/
 mount ${partition}4 /mnt/home
 
-pacstrap /mnt base linux linux-firmware
+pacstrap /mnt base base-devel linux linux-firmware
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
 modprobe efivarfs
 
 curl -Lo /mnt/arch_install_chroot.sh https://raw.githubusercontent.com/Wacken/bins/master/others/arch_install_chroot.sh
-
 chmod +x arch_install_chroot.sh
 arch-chroot /mnt /bin/bash arch_install_chroot.sh "$user" "$password" "$hostname" "$partition"
 
