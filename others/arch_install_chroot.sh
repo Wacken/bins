@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -eo pipefail
 
 user=$1
 password=$2

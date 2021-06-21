@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eo pipefail
 
 #to download: curl -o arch_install.sh -L https://tinyurl.com/e4nx66fm
 
@@ -51,13 +52,14 @@ else
 	diskSize=$(lsblk | grep "$toSearchDisk\b" | tr -s ' ' | cut -d' ' -f4 | tr -d '[:alpha:]')
 	rootSize=$(echo "$diskSize * 0.25" | bc)
 	rootSizeFormated=${float%.*}
-	if ((rootSizeFormated <= 4)); then
-		rootSizeFormated=4
+	if ((rootSizeFormated <= 8)); then
+		rootSizeFormated=8
 	elif ((rootSizeFormated >= 40)); then
 		rootSizeFormated=40
 	fi
 	rootSizeEnd=$(echo "${swapEnd//[[:alpha:]]/} + $rootSizeFormated * 1000" | bc)MB
 	echo "root Ends at $rootSizeEnd"
+	read -n 1 -s
 
 	parted -s $partition mklabel gpt
 
