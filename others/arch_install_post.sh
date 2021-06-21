@@ -119,8 +119,13 @@ git clone git@github.com:Wacken/passstore.git ~/.local/share/pass
 sudo pacman -S browserpass browserpass-chromium --noconfirm
 
 echo 'setup Org files'
+mkdir ~/Files
+git clone git@github.com:Wacken/Org-Files.git ~/Files/Org
 
 echo 'setup local scripts'
+git clone git@github.com:Wacken/bins.git ~/Files/scripts
+sudo pacman -S stow --noconfirm
+stow -d ~/Files/scripts -t ~ -R bins -v
 
 echo 'setup xmonad'
 sudo pacman -S xmonad xmonad-contrib xmobar kitty dmenu --noconfirm
