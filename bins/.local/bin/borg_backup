@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-passwd=$(cat <(gpg -d /home/wacken/.gnupg/borg_backup.txt.gpg 2> /dev/null))
+passwd=$(cat <(gpg -d /home/wacken/.local/share/gnupg/borg_backup.txt.gpg 2> /dev/null))
 export BORG_PASSPHRASE="$passwd"
 
 MOUNTPOINT="$1"
