@@ -1,24 +1,27 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -eo pipefail
 
 echo "Do you already have an SSH key uploaded to github [y/n]"
 read -n 1 answer
 if [ "$answer" = "n" ]; then
     ssh-keygen -t ed25519 -C "sebastianwalchi@gmail.com"
+    mkdir /root/.ssh
     sudo cp ~/.ssh/id_* /root/.ssh/
     echo "created new ssh key"
     exit
 fi
 
-echo "Do you have already moved the GPG keys [y/n]"
+echo "Do you have already moved the GPG keys [y/n/x]"
 read -n 1 answer
 if [ "$answer" = "y" ]; then
     echo "setting up gpg"
-    mkdir ~/.local/share/gnupg
+    mkdir -p ~/.local/share/gnupg
     gpg --import ~/my_private_key.asc
     gpg --import ~/my_public_key.asc
     shred -u ~/my_public_key.asc
     shred -u ~/my_private_key.asc
+elif [ "$answer" = "x" ]; then
+     echo "skipping setup"
 else
     cat <<EOF
 move the gpg key first, otherwise no password management
