@@ -52,24 +52,11 @@ git clone https://aur.archlinux.org/yay.git
 yay --noconfirm
 rm -rf yay/
 
-echo 'Setup standard alternative programs'
-sudo pacman -S exa bat rg fd --noconfirm
-
-echo 'Setup emacs'
-sudo pacman -S emacs --noconfirm
-git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.config/emacs
-~/.config/emacs/bin/doom install
-(
-    cd ~/.config
-    git clone git@github.com:Wacken/doom.git
-)
-~/.config/emacs/bin/doom sync
-
 echo 'setup etc files'
 (
     cd /etc
-    umask a+r,u+w
-    su -c "git init
+    su -c "umask a+r,u+w
+    git init
     touch .gitignore
     chmod a+w .gitignore
     git status --porcelain | grep '^??' | cut -c4- > .gitignore
@@ -90,20 +77,8 @@ echo 'setup etc files'
     git add hosts
     git add hostname
     git commit -m 'Initial $branchName commit'
-    git push --set-upstream origin arch-vm" root
+    git push --set-upstream origin $branchName" root
 )
-
-echo 'root level programs'
-yay -Sy # multilib database download from new pacman.conf
-yay -S terminus-font
-mkdir ~/opt/
-(
-    cd ~/opt
-    git clone git@github.com:xenlism/Grub-themes.git
-    cd Grub-themes/xenlism-grub-arch-1080p
-    sudo ./install.sh
-)
-rm -rf ~/opt/Grub-themes
 
 # su -c 'rm .gitignore
 # rm default/grub
@@ -115,14 +90,40 @@ rm -rf ~/opt/Grub-themes
 # git pull origin master --allow-unrelated-histories
 # git commit -m "merged"' root
 
+echo 'root level Visuals'
+yay -Sy # multilib database download from new pacman.conf
+yay -S terminus-font
+mkdir ~/opt/
+(
+    cd ~/opt
+    git clone git@github.com:xenlism/Grub-themes.git
+    cd Grub-themes/xenlism-grub-arch-1080p
+    sudo ./install.sh
+)
+rm -rf ~/opt/Grub-themes
+
+echo 'Setup emacs'
+sudo pacman -S emacs --noconfirm
+git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.config/emacs
+~/.config/emacs/bin/doom install
+(
+    cd ~/.config
+    git clone git@github.com:Wacken/doom.git
+)
+~/.config/emacs/bin/doom sync
+
 echo 'setup password manager'
+sudo pacman -S pass --noconfirm
+mkdir ~/.local/share/pass
+git clone git@github.com:Wacken/passstore.git ~/.local/share/pass
+sudo pacman -S browserpass browserpass-chromium --noconfirm
 
 echo 'setup Org files'
 
-echo 'install other programms'
+echo 'setup local scripts'
 
 echo 'setup xmonad'
-sudo pacman -S xmonad xmonad-contrib xmobar
+sudo pacman -S xmonad xmonad-contrib xmobar kitty dmenu --noconfirm
 
 echo 'create default environment files'
 mkdir ~/.local/bin
@@ -133,3 +134,8 @@ echo 'Install yadm'
 yay -S --answerdiff N --answerclean N yadm
 yadm clone git@github.com:Wacken/.dotFiles.git
 yadm reset --hard
+
+echo 'install other programms'
+
+echo 'Setup standard alternative programs'
+sudo pacman -S exa bat rg fd --noconfirm
