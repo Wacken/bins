@@ -15,10 +15,10 @@ echo "set locale"
 sed -i 's/^#en_US.UTF-8/en_US.UTF-8/' /etc/locale.gen
 sed -i 's/^#ja_JP.UTF-8 UTF-8/ja_JP.UTF-8 UTF-8/' /etc/locale.gen
 locale-gen
-echo 'LANG=en_US.UTF-8' > /etc/locale.conf
+echo 'LANG=en_US.UTF-8' >/etc/locale.conf
 
 echo "set keyboard layout"
-echo 'KEYMAP=dvorak-programmer' > /etc/vconsole.conf
+echo 'KEYMAP=dvorak-programmer' >/etc/vconsole.conf
 
 echo "pacman init"
 pacman -Sy
@@ -28,10 +28,10 @@ sudo pacman -S reflector --noconfirm
 sudo reflector -c Germany -a 12 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
 
 echo "setup hostname"
-echo "$hostname" > /etc/hostname
+echo "$hostname" >/etc/hostname
 
 echo "setup network"
-cat << EOF >> /etc/hosts
+cat <<EOF >>/etc/hosts
 127.0.0.1	localhost
 ::1		localhost
 127.0.1.1	$hostname.localdomain	$hostname
@@ -59,7 +59,6 @@ sudo git config --global init.deafultBranch master
 sudo git config --global user.email "sebastianwalchi@gmail.com"
 sudo git config --global user.name "wacken"
 
-
 echo 'Install ssh'
 pacman -S openssh --noconfirm
 systemctl enable --now sshd
@@ -68,15 +67,16 @@ echo 'Install graphicals'
 # pacman -S xorg xorg-xinit xterm --noconfirm
 pacman -S xorg-server xorg-xinit --noconfirm
 pacman -S xf86-video-nouveau --noconfirm
+# sudo localectl --no-convert set-x11-keymap us dvp
 
 echo 'Setting up user'
-read -t 1 -n 1000000 discard      # discard previous input
+read -t 1 -n 1000000 discard # discard previous input
 
 pacman -S sudo --noconfirm
 
 echo 'root:'$password | chpasswd
 useradd -m -G wheel,audio,video,optical,storage $user
 echo $user:$password | chpasswd
-echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
+echo '%wheel ALL=(ALL) ALL' >>/etc/sudoers
 
 exit
