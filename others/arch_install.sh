@@ -1,4 +1,5 @@
 #!/bin/bash
+set -eo pipefail
 
 #to download: curl -o arch_install.sh -L https://tinyurl.com/e4nx66fm
 
@@ -74,7 +75,6 @@ swapon ${partition}2
 mkfs.ext4 ${partition}3
 mkfs.ext4 ${partition}4
 
-mkdir /mnt
 mount ${partition}3 /mnt
 mkdir /mnt/efi
 mount ${partition}1 /mnt/efi
