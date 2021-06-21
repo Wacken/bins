@@ -92,4 +92,4 @@ chmod +x arch_install_chroot.sh
 arch-chroot /mnt /bin/bash arch_install_chroot.sh "$user" "$password" "$hostname" "$partition"
 
 umount -R /mnt
-poweroff
+reboot
