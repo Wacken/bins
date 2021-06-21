@@ -6,6 +6,28 @@ read -n 1 answer
 if [ "$answer" = "n" ]; then
     ssh-keygen -t ed25519 -C "sebastianwalchi@gmail.com"
     sudo cp ~/.ssh/id_* /root/.ssh/
+    echo "created new ssh key"
+    exit
+fi
+
+echo "Do you have already moved the GPG keys [y/n]"
+read -n 1 answer
+if [ "$answer" = "y" ]; then
+    echo "setting up gpg"
+    mkdir ~/.local/share/gnupg
+    gpg --import ~/my_private_key.asc
+    gpg --import ~/my_public_key.asc
+    shred -u ~/my_public_key.asc
+    shred -u ~/my_private_key.asc
+else
+    cat <<EOF
+move the gpg key first, otherwise no password management
+To export use
+gpg --export-secret-keys -a keyid > my_private_key.asc
+gpg --export -a keyid > my_public_key.asc
+and move them to the home folder
+of this machine
+EOF
     exit
 fi
 
