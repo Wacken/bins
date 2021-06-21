@@ -1,5 +1,4 @@
 #!/bin/bash
-set -eo pipefail
 
 #to download: curl -o arch_install.sh -L https://tinyurl.com/e4nx66fm
 
@@ -59,7 +58,6 @@ else
 	fi
 	rootSizeEnd=$(echo "${swapEnd//[[:alpha:]]/} + $rootSizeFormated * 1000" | bc)MB
 	echo "root Ends at $rootSizeEnd"
-	read -n 1 -s
 
 	parted -s $partition mklabel gpt
 
