@@ -1,5 +1,4 @@
 #!/bin/bash
-set -eo pipefail
 
 #to download: curl -o arch_install.sh -L https://tinyurl.com/e4nx66fm
 
