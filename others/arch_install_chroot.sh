@@ -65,9 +65,9 @@ systemctl enable --now sshd
 
 echo 'Install graphicals'
 # pacman -S xorg xorg-xinit xterm --noconfirm
-pacman -S xorg-server xorg-xinit --noconfirm
+# pacman -S xorg-server xorg-xinit --noconfirm
 pacman -S xf86-video-nouveau --noconfirm
-# sudo localectl --no-convert set-x11-keymap us dvp
+# sudo localectl --no-convert set-x11-keymap us pc105 dvp
 
 echo 'Setting up user'
 read -t 1 -n 1000000 discard # discard previous input
