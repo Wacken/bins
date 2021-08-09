@@ -170,7 +170,7 @@ bluetoothctl default-agent
 # sudo pacman -S alsa-utils --noconfirm # for alsamixer and amixer
 
 echo 'instal games'
-sudo pacman -S wine winetricks wine-mono wine_gecko --noconfirm
+sudo pacman -S wine winetricks wine-mono wine-gecko --noconfirm
 sudo pacman -S lutris --noconfirm
 
 echo 'install japanese language input'
