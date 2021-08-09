@@ -65,8 +65,10 @@ systemctl enable --now sshd
 
 echo 'Install graphicals'
 # pacman -S xorg xorg-xinit xterm --noconfirm
-# pacman -S xorg-server xorg-xinit --noconfirm
-pacman -S xf86-video-nouveau --noconfirm
+pacman -S xorg-server xorg-xinit --noconfirm
+# https://github.com/lutris/docs/blob/master/InstallingDrivers.md
+pacman -S nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings\
+    vulkan-icd-loader lib32-vulkan-icd-loader --noconfirm
 # sudo localectl --no-convert set-x11-keymap us pc105 dvp
 
 echo 'Setting up user'
