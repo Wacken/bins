@@ -140,7 +140,7 @@ yadm clone git@github.com:Wacken/.dotFiles.git
 yadm reset --hard
 
 echo 'install tools'
-yay -S rclone rsync simple-mtpfs feh
+yay -S rclone rsync simple-mtpfs udiskie
 
 echo 'install default programs'
 sudo pacman -S dunst cronie vlc feh ufw flameshot --noconfirm
@@ -158,12 +158,20 @@ echo 'Setup standard alternative programs'
 sudo pacman -S exa bat ripgrep fd --noconfirm
 
 echo 'install other programms'
-yay -S youtube-music-bin discord libreoffice-still surfshark-vpn\
-    redshift-minimal picom-joanburg-git nitrogen simplescreenrecorder\
-    thunderbird foxitreader nautilus
+yay -S youtube-music-bin discord surfshark-vpn redshift-minimal nitrogen thunderbird
+# yay -S picom-joanburg-git nautilus simplescreenrecorder libreoffice-still foxitreader
 
 echo 'install sound with bluetooth'
-yay -S pavucontrol
+yay -S pavucontrol pulseaudio-alsa pulseaudio-bluetooth bluez-utils
+sudo sytemctl enable --now bluetooth
+bluetoothctl power on
+bluetoothctl agent on
+bluetoothctl default-agent
+# sudo pacman -S alsa-utils --noconfirm # for alsamixer and amixer
+
+echo 'instal games'
+sudo pacman -S wine winetricks wine-mono wine_gecko --noconfirm
+sudo pacman -S lutris --noconfirm
 
 echo 'install japanese language input'
 yay -S adobe-source-han-sans-jp-fonts ibus-mozc-ut2
