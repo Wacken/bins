@@ -148,7 +148,7 @@ sudo systemctl enable --now cronie
 sudo systemctl enable --now ufw
 
 echo 'fonts setup'
-sudo pacman -S ttf-fira-code ttf-dejavu noto-emoji-font --noconfirm
+sudo pacman -S ttf-fira-code ttf-dejavu noto-fonts-emoji --noconfirm
 
 echo 'install browser'
 # gtk2 needed,as you want to popup a pinentry-gtk-2 window from browser to input gpg key
