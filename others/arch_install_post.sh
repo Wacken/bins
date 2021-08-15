@@ -102,6 +102,8 @@ mkdir ~/opt/
     sudo ./install.sh
 )
 rm -rf ~/opt/Grub-themes
+# for hiding grub menue from etc and safety for grub theme
+sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 echo 'Setup emacs'
 sudo pacman -S emacs --noconfirm
