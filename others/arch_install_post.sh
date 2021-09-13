@@ -173,6 +173,10 @@ echo 'instal games'
 sudo pacman -S wine winetricks wine-mono wine-gecko --noconfirm
 sudo pacman -S lutris --noconfirm
 
+echo 'install printer support'
+sudo pacman -S cups print-manager --noconfirm
+yay -S brother-mfc-l2700dn
+
 echo 'install japanese language input'
 yay -S adobe-source-han-sans-jp-fonts ibus-mozc-ut2
 echo 'setup ibus in input ctrl space, in languages add mozc and dvorak programmer
