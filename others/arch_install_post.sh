@@ -102,6 +102,8 @@ mkdir ~/opt/
     sudo ./install.sh
 )
 rm -rf ~/opt/Grub-themes
+# for hiding grub menue from etc and safety for grub theme
+sudo grub-mkconfig -o /boot/grub/grub.cfg
 
 echo 'Setup emacs'
 sudo pacman -S emacs --noconfirm
@@ -140,10 +142,10 @@ yadm clone git@github.com:Wacken/.dotFiles.git
 yadm reset --hard
 
 echo 'install tools'
-yay -S rclone rsync simple-mtpfs udiskie
+yay -S rclone rsync simple-mtpfs udiskie cronie
 
 echo 'install default programs'
-sudo pacman -S dunst cronie vlc feh ufw flameshot --noconfirm
+sudo pacman -S dunst vlc feh ufw flameshot --noconfirm
 sudo systemctl enable --now cronie
 sudo systemctl enable --now ufw
 
@@ -171,6 +173,7 @@ bluetoothctl default-agent
 
 echo 'instal games'
 sudo pacman -S wine winetricks wine-mono wine-gecko --noconfirm
+yay -S proton-ge-custom-bin protontricks
 sudo pacman -S lutris --noconfirm
 
 echo 'install printer support'
@@ -178,7 +181,7 @@ sudo pacman -S cups print-manager --noconfirm
 yay -S brother-mfc-l2700dn
 
 echo 'install japanese language input'
-yay -S adobe-source-han-sans-jp-fonts ibus-mozc-ut2
+yay -S adobe-source-han-sans-jp-fonts ibus-mozc
 echo 'setup ibus in input ctrl space, in languages add mozc and dvorak programmer
 and in the advanced tab set "use system keyboard"'
 ibus-setup
