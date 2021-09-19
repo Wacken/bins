@@ -56,7 +56,8 @@ git clone https://aur.archlinux.org/yay.git
 yay --noconfirm
 rm -rf yay/
 
-echo 'setup etc files'
+echo 'setup etc files? [y/n]'
+if [ "$answer" = "y" ]; then
 (
     cd /etc
     su -c "umask a+r,u+w
@@ -89,10 +90,13 @@ echo 'setup etc files'
     git add hostname
     git commit -m 'Initial $branchName commit'" root
 )
+fi
 # git push --set-upstream origin $branchName ;; removed as doesn't work reliably
 
-echo 'root level Visuals'
 yay -Sy # multilib database download from new pacman.conf
+
+echo 'root level Visuals? [y/n]'
+if [ "$answer" = "y" ]; then
 yay -S terminus-font --noconfirm
 mkdir ~/opt/
 (
@@ -104,80 +108,116 @@ mkdir ~/opt/
 rm -rf ~/opt/Grub-themes
 # for hiding grub menue from etc and safety for grub theme
 sudo grub-mkconfig -o /boot/grub/grub.cfg
+fi
 
-echo 'Setup emacs'
+echo 'Setup emacs? [y/n]'
+if [ "$answer" = "y" ]; then
 sudo pacman -S emacs --noconfirm
 git clone git@github.com:Wacken/doom.git ~/.config/doom
 git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.config/emacs
 ~/.config/emacs/bin/doom install
 ~/.config/emacs/bin/doom sync
+fi
 
-echo 'setup password manager'
+echo 'setup password manager? [y/n]'
+if [ "$answer" = "y" ]; then
 sudo pacman -S pass --noconfirm
 mkdir ~/.local/share/pass
 git clone git@github.com:Wacken/passstore.git ~/.local/share/pass
 sudo pacman -S xclip --noconfirm
+fi
 
-echo 'setup Org files'
+echo 'setup Org files? [y/n]'
+if [ "$answer" = "y" ]; then
 mkdir ~/Files
 git clone git@github.com:Wacken/Org-Files.git ~/Files/Org
+fi
 
-echo 'setup local scripts'
+echo 'setup local scripts? [y/n]'
+if [ "$answer" = "y" ]; then
 git clone git@github.com:Wacken/bins.git ~/Files/scripts
 sudo pacman -S stow --noconfirm
 mkdir ~/.local/bin
 stow -d ~/Files/scripts -t ~ -R bins -v
+fi
 
-echo 'setup xmonad'
+echo 'setup xmonad? [y/n]'
+if [ "$answer" = "y" ]; then
 mkdir ~/.local/share/xmonad
 sudo pacman -S xmonad xmonad-contrib xmobar kitty dmenu --noconfirm
+fi
 
 echo 'create default environment files'
 mkdir ~/.cache/bash
 touch ~/.cache/bash/history
 
-echo 'Install yadm'
+echo 'Install timeshift? [y/n]'
+if [ "$answer" = "y" ]; then
+yay -S timeshift
+fi
+
+echo 'Install yadm? [y/n]'
+if [ "$answer" = "y" ]; then
 yay -S --answerdiff N --answerclean N yadm
 yadm clone git@github.com:Wacken/.dotFiles.git
 yadm reset --hard
+fi
 
-echo 'install tools'
+echo 'install tools? [y/n]'
+if [ "$answer" = "y" ]; then
 yay -S rclone rsync simple-mtpfs udiskie cronie
+fi
 
-echo 'install default programs'
+echo 'install default programs? [y/n]'
+if [ "$answer" = "y" ]; then
 sudo pacman -S dunst vlc feh ufw flameshot --noconfirm
 sudo systemctl enable --now cronie
 sudo systemctl enable --now ufw
+fi
 
-echo 'fonts setup'
+echo 'fonts setup? [y/n]'
+if [ "$answer" = "y" ]; then
 sudo pacman -S ttf-fira-code ttf-dejavu noto-fonts-emoji --noconfirm
+fi
 
-echo 'install browser'
+echo 'install browser? [y/n]'
+if [ "$answer" = "y" ]; then
 # gtk2 needed,as you want to popup a pinentry-gtk-2 window from browser to input gpg key
 yay -S brave-bin browserpass-chromium gtk2
+fi
 
-echo 'Setup standard alternative programs'
+echo 'Setup standard alternative programs? [y/n]'
+if [ "$answer" = "y" ]; then
 sudo pacman -S exa bat ripgrep fd --noconfirm
+fi
 
-echo 'install other programms'
+echo 'install other programms? [y/n]'
+if [ "$answer" = "y" ]; then
 yay -S youtube-music-bin discord surfshark-vpn redshift-minimal nitrogen thunderbird
 # yay -S picom-joanburg-git nautilus simplescreenrecorder libreoffice-still foxitreader
+fi
 
-echo 'install sound with bluetooth'
+echo 'install sound with bluetooth? [y/n]'
+if [ "$answer" = "y" ]; then
 yay -S pavucontrol pulseaudio-alsa pulseaudio-bluetooth bluez-utils
 sudo sytemctl enable --now bluetooth
 bluetoothctl power on
 bluetoothctl agent on
 bluetoothctl default-agent
 # sudo pacman -S alsa-utils --noconfirm # for alsamixer and amixer
+fi
 
-echo 'instal games'
+echo 'instal games? [y/n]'
+if [ "$answer" = "y" ]; then
 sudo pacman -S wine winetricks wine-mono wine-gecko --noconfirm
 yay -S proton-ge-custom-bin protontricks
 sudo pacman -S lutris --noconfirm
+fi
 
-echo 'install japanese language input'
+echo 'install japanese language input? [y/n]'
+if [ "$answer" = "y" ]; then
 yay -S adobe-source-han-sans-jp-fonts ibus-mozc
 echo 'setup ibus in input ctrl space, in languages add mozc and dvorak programmer
 and in the advanced tab set "use system keyboard"'
 ibus-setup
+fi
