@@ -171,6 +171,7 @@ fi
 echo 'install default programs? [y/n]'
 if [ "$answer" = "y" ]; then
 sudo pacman -S dunst vlc feh ufw flameshot --noconfirm
+sudo pacman -S inetutils # for hostname command in backup script
 sudo systemctl enable --now cronie
 sudo systemctl enable --now ufw
 fi
@@ -214,16 +215,8 @@ yay -S proton-ge-custom-bin protontricks
 sudo pacman -S lutris --noconfirm
 fi
 
-<<<<<<< HEAD
 echo 'install japanese language input? [y/n]'
 if [ "$answer" = "y" ]; then
-=======
-echo 'install printer support'
-sudo pacman -S cups print-manager --noconfirm
-yay -S brother-mfc-l2700dn
-
-echo 'install japanese language input'
->>>>>>> 5fc4720a863c1e672c050b4e70a64d334f35b536
 yay -S adobe-source-han-sans-jp-fonts ibus-mozc
 echo 'setup ibus in input ctrl space, in languages add mozc and dvorak programmer
 and in the advanced tab set "use system keyboard"'
