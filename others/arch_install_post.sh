@@ -171,6 +171,10 @@ bluetoothctl agent on
 bluetoothctl default-agent
 # sudo pacman -S alsa-utils --noconfirm # for alsamixer and amixer
 
+echo 'install timeshift'
+yay -S timeshift
+sudo systemctl enable cronie
+
 echo 'instal games'
 sudo pacman -S wine winetricks wine-mono wine-gecko --noconfirm
 yay -S proton-ge-custom-bin protontricks
