@@ -3,10 +3,11 @@
 exec &>/dev/null
 
 nohup ~/.local/bin/reminders &
+nohup ~/.local/bin/reminders &
 nohup emacs --eval='(org-agenda nil "G")' &
 nohup emacs -f elfeed &
 nohup brave &
-nohup youtube-music &
+# nohup youtube-music &
 sleep 5
 wmctrl -r "Doom Emacs" -t 8
-wmctrl -r "YouTube Music" -t 6
+# wmctrl -r "YouTube Music" -t 6
