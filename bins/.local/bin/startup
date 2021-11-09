@@ -2,8 +2,6 @@
 
 exec &>/dev/null
 
-nohup ~/.local/bin/reminders &
-nohup ~/.local/bin/reminders &
 nohup emacs --eval='(org-agenda nil "G")' &
 nohup emacs -f elfeed &
 nohup brave &
