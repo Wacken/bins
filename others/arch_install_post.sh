@@ -216,7 +216,7 @@ fi
 
 echo 'install games? [y/n]'
 if [ "$answer" = "y" ]; then
-sudo pacman -S wine winetricks wine-mono wine-gecko --noconfirm
+sudo pacman -S wine winetricks wine-mono wine-gecko lib32-libpulse--noconfirm
 yay -S proton-ge-custom-bin protontricks
 sudo pacman -S lutris --noconfirm
 fi
