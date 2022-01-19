@@ -80,7 +80,7 @@ mount ${partition}1 /mnt/efi
 mkdir /mnt/home/
 mount ${partition}4 /mnt/home
 
-pacstrap /mnt base base-devel linux linux-firmware
+pacstrap /mnt base base-devel linux-lts linux-firmware
 
 genfstab -U /mnt >> /mnt/etc/fstab
 
