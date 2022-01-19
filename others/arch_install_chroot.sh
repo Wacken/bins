@@ -78,7 +78,7 @@ read -t 1 -n 1000000 discard # discard previous input
 pacman -S sudo --noconfirm
 
 echo 'root:'$password | chpasswd
-useradd -m -G wheel,audio,video,optical,storage $user
+useradd -m -G wheel,audio,video,optical,storage,input $user
 echo $user:$password | chpasswd
 echo '%wheel ALL=(ALL) ALL' >>/etc/sudoers
 
