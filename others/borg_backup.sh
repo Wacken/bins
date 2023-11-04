@@ -7,11 +7,11 @@ if [[ ! -d "$MOUNTPOINT" ]]; then
     exit 2
 fi
 TARGET="$MOUNTPOINT/Backups/borg"
-DATA="/data"
+DATA="$1"
 
 DATE=$(date --iso-8601)-$(hostname)
 BORG_OPTIONS="--stats --progress --compression=lzma"
-TO_BACKUP="$DATA/Windows_backup $DATA/Keep $DATA/Japanese $DATA/Remember $DATA/Books $DATA/Documents $DATA/Learn $DATA/Music $DATA/Pictures"
+TO_BACKUP="$DATA/Keep $DATA/Japanese $DATA/Remember $DATA/Books $DATA/Documents $DATA/Learn $DATA/Music $DATA/Pictures"
 
 # passwdFile=$(cat <(gpg -d /home/wacken/.local/share/gnupg/borg_backup.gpg 2> /dev/null))
 passwd="${2:-xxx}"
