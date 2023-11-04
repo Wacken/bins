@@ -2,5 +2,5 @@
 
 while true; do
 	sleep $((($RANDOM % 60) + 1))m
-	notify-send "sit correctly"
+	notify-send -i ~/.config/dunst/images/heart.png "Health" "Look after your eyes!" #<br>Look at something at a distance of 20 feet for a while or take a break!"
 done
