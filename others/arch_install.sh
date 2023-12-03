@@ -11,21 +11,21 @@ loadkeys dvorak-programmer
 
 if [ -z "$1" ]; then
 	echo "Enter your username: "
-	read user
+	read -r user
 else
 	user=$1
 fi
 
 if [ -z "$2" ]; then
 	echo "Enter your master password: "
-	read -s password
+	read -r -s password
 else
 	password=$2
 fi
 
 if [ -z "$3" ]; then
 	echo "Enter Hostname:"
-	read hostname
+	read -r hostname
 else
 	hostname=$3
 fi
@@ -35,9 +35,9 @@ timedatectl set-ntp true
 echo "Enter (N/n) if you don't have a standard setup (existing EFI partition, dual boot)"
 lsblk
 echo "Enter partiton to install on(i.e /dev/sda):"
-read partition
+read -r partition
 
-if [ $partition = "n" ] || [ $partition = "N" ]; then
+if [ "$partition" = "n" ] || [ "$partition" = "N" ]; then
 	echo "No standard setup, set partitions manually"
 	exit 1
 else
@@ -47,7 +47,7 @@ else
 	swapEnd=$(echo "261 + $ramSizeSquare * 1000" | bc)MB
 	echo "swap Ends at $swapEnd"
 
-	toSearchDisk=$(basename $partition)
+	toSearchDisk=$(basename "$partition")
 	diskSize=$(lsblk | grep "$toSearchDisk\b" | tr -s ' ' | cut -d' ' -f4 | tr -d '[:alpha:]')
 	rootSize=$(echo "$diskSize * 0.25" | bc)
 	rootSizeFormated=${float%.*}
@@ -59,26 +59,26 @@ else
 	rootSizeEnd=$(echo "${swapEnd//[[:alpha:]]/} + $rootSizeFormated * 1000" | bc)MB
 	echo "root Ends at $rootSizeEnd"
 
-	parted -s $partition mklabel gpt
+	parted -s "$partition" mklabel gpt
 
-	parted -s $partition mkpart "EFI_system_partition" fat32 1MiB 261MiB
-	parted -s $partition set 1 esp on
-	parted -s $partition mkpart "swap_partition" linux-swap 261MiB $swapEnd
-	parted -s $partition mkpart "root_partition" ext4 $swapEnd $rootSizeEnd
-    parted -s $partition mkpart "home_partition" ext4 $rootSizeEnd 100%
+	parted -s "$partition" mkpart "EFI_system_partition" fat32 1MiB 261MiB
+	parted -s "$partition" set 1 esp on
+	parted -s "$partition" mkpart "swap_partition" linux-swap 261MiB "$swapEnd"
+	parted -s "$partition" mkpart "root_partition" ext4 "$swapEnd" "$rootSizeEnd"
+    parted -s "$partition" mkpart "home_partition" ext4 "$rootSizeEnd" 100%
 fi
 
-mkfs.fat -F32 ${partition}1
-mkswap ${partition}2
-swapon ${partition}2
-mkfs.ext4 ${partition}3
-mkfs.ext4 ${partition}4
+mkfs.fat -F32 "${partition}"1
+mkswap "${partition}"2
+swapon "${partition}"2
+mkfs.ext4 "${partition}"3
+mkfs.ext4 "${partition}"4
 
-mount ${partition}3 /mnt
+mount "${partition}"3 /mnt
 mkdir /mnt/efi
-mount ${partition}1 /mnt/efi
+mount "${partition}"1 /mnt/efi
 mkdir /mnt/home/
-mount ${partition}4 /mnt/home
+mount "${partition}"4 /mnt/home
 
 pacstrap /mnt base base-devel linux-lts linux-firmware
 
