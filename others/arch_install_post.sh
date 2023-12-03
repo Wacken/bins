@@ -242,3 +242,6 @@ and in the advanced tab set "use system keyboard"'
 ibus-setup
 fi
 
+echo 'install yomichan?'
+echo 'go to https://foosoft.net/projects/yomichan/#dictionaries and download the dicts'
+echo 'dont forget too import the settings'
