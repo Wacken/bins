@@ -68,14 +68,15 @@ systemctl enable --now sshd
 echo 'Install graphicals'
 # pacman -S xorg xorg-xinit xterm --noconfirm
 pacman -S xorg-server xorg-xinit --noconfirm
+# necessary drivers
+pacman -S nvidia-lts nvidia-utils nvidia-settings --noconfirm
 # https://github.com/lutris/docs/blob/master/InstallingDrivers.md
-pacman -S nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings\
-    vulkan-icd-loader lib32-vulkan-icd-loader --noconfirm
+pacman -S vulkan-icd-loader lib32-vulkan-icd-loader lib32-nvidia-utils --noconfirm
 # find xkbmodel with 'setxkbmap -print | grep geometry'
 # sudo localectl --no-convert set-x11-keymap us pc105 dvp
 
 echo 'Setting up user'
-read -t 1 -n 1000000 discard # discard previous input
+read -t 1 -n 1000000 _ # discard previous input
 
 pacman -S sudo --noconfirm
 
