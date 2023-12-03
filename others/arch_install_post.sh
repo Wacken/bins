@@ -125,10 +125,9 @@ fi
 echo 'setup password manager? [y/n]'
 read -n 1 answer
 if [ "$answer" = "y" ]; then
-sudo pacman -S pass --noconfirm
+sudo pacman -S pass xclip --noconfirm
 mkdir ~/.local/share/pass
 git clone git@github.com:Wacken/passstore.git ~/.local/share/pass
-sudo pacman -S xclip --noconfirm
 fi
 
 echo 'setup Org files? [y/n]'
@@ -224,7 +223,6 @@ echo 'install timeshift [y/n]'
 read -n 1 answer
 if [ "$answer" = "y" ]; then
 yay -S timeshift
-sudo systemctl enable cronie
 fi
 
 echo 'install games? [y/n]'
