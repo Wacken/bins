@@ -50,7 +50,7 @@ else
 	toSearchDisk=$(basename "$partition")
 	diskSize=$(lsblk | grep "$toSearchDisk\b" | tr -s ' ' | cut -d' ' -f4 | tr -d '[:alpha:]')
 	rootSize=$(echo "$diskSize * 0.25" | bc)
-	rootSizeFormated=${float%.*}
+	rootSizeFormated=${rootSize%.*}
 	if ((rootSizeFormated <= 8)); then
 		rootSizeFormated=8
 	elif ((rootSizeFormated >= 40)); then
