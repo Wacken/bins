@@ -99,7 +99,7 @@ yay -Sy # multilib database download from new pacman.conf
 echo 'root level Visuals? [y/n]'
 read -n 1 answer
 if [ "$answer" = "y" ]; then
-yay -S terminus-font --noconfirm
+yay -S terminus-font os-prober --noconfirm # os-prober to find potential dual-boot
 mkdir ~/opt/
 (
     cd ~/opt
