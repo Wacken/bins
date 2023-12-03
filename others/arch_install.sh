@@ -80,6 +80,9 @@ mount ${partition}1 /mnt/efi
 mkdir /mnt/home/
 mount ${partition}4 /mnt/home
 
+
+#pacman -Sy archlinux-keyring  #If unknown signature error
+
 pacstrap /mnt base base-devel linux-lts linux-firmware
 
 genfstab -U /mnt >> /mnt/etc/fstab
