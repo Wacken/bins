@@ -5,10 +5,11 @@ password=$2
 hostname=$3
 partition=$4
 
-echo "time zone settings"
+echo "time zone settings; set it like Europe/Berlin"
+read -r timezone
 timedatectl set-ntp true
-ln -s /usr/share/zoneinfo/Europe/Berlin /etc/localtime
-timedatectl set-timezone Europe/Berlin
+ln -s "/usr/share/zoneinfo/$timezone" /etc/localtime
+timedatectl set-timezone "$timezone"
 hwclock --systohc
 
 echo "set locale"
@@ -23,9 +24,10 @@ echo 'KEYMAP=dvorak-programmer' >/etc/vconsole.conf
 echo "pacman init"
 pacman -Sy
 
-echo 'mirror-update'
+echo 'mirror-update; set country like Germany'
+read -r country
 sudo pacman -S reflector --noconfirm
-sudo reflector -c Germany -a 12 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
+sudo reflector -c "$country" -a 12 -p https -p http --sort rate --save /etc/pacman.d/mirrorlist
 
 echo "setup hostname"
 echo "$hostname" >/etc/hostname
