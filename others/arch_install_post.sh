@@ -122,8 +122,15 @@ git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.config/emacs
 ~/.config/emacs/bin/doom sync
 fi
 
+echo 'setup zsh as default? [y/n]'
+read -n -r 1 answer
+if [ "$answer" = "y" ]; then
+paru -S zsh zsh-extract-git zsh-fast-syntax-highlighting --noconfirm
+chsh -s /usr/bin/zsh
+fi
+
 echo 'setup password manager? [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 sudo pacman -S pass xclip --noconfirm
 mkdir ~/.local/share/pass
