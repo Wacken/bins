@@ -153,12 +153,20 @@ mkdir ~/.local/bin
 stow -d ~/Files/scripts -t ~/.local/bin -R bins -v
 fi
 
-echo 'setup xmonad? [y/n]'
-read -n 1 answer
+echo 'setup xmonad (from https://github.com/Axarva/dotfiles-2.0#arch)? [y/n]'
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 mkdir ~/.local/share/xmonad
-
-sudo pacman -S xmonad xmonad-contrib xmobar kitty dmenu --noconfirm
+git clone git@github.com:Axarva/dotfiles-2.0.git
+(
+    cd dotfiles-2.0
+    ./install-on-arch.sh
+)
+paru -Rns alacritty betterlockscreen xorg-xinput xorg-bdftopcf xorg-docs xorg-font-util xorg-fonts-100dpi xorg-fonts-75dpi xorg-iceauth xorg-mkfontscale xorg-server-devel xorg-server-xephyr xorg-server-xnest xorg-server-xvfb xorg-sessreg xorg-smproxy xorg-x11perf xorg-xbacklight xorg-xcmsdb xorg-xcursorgen xorg-xdriinfo xorg-xev xorg-xgamma xorg-xhost xorg-xkbevd xorg-xkbutils xorg-xkill xorg-xlsatoms xorg-xlsclients xorg-xpr xorg-xrefresh xorg-xsetroot xorg-xvinfo xorg-xwayland xorg-xwd xorg-xwininfo xorg-xwud
+rm -rf ~/bin
+rm -rf ~/.srcs
+rm -rf ~/.config/alacritty.yml
+paru -S betterlockscreen xorg-xinput rofi-pass
 fi
 
 echo 'create default environment files'
