@@ -47,14 +47,14 @@ echo 'set umask for file creation'
 umask a+r,u+w
 
 # sudo pacman -S fakeroot binutils make gcc --noconfirm
-echo 'Install yay AUR manager'
-git clone https://aur.archlinux.org/yay.git
+echo 'Install paru AUR manager'
+git clone https://aur.archlinux.org/paru.git
 (
-    cd yay/
+    cd paru/
     makepkg -sri
 )
-yay --noconfirm
-rm -rf yay/
+paru --noconfirm
+rm -rf paru/
 
 echo 'setup etc files? [y/n]'
 read -n 1 answer
@@ -94,12 +94,12 @@ if [ "$answer" = "y" ]; then
 fi
 # git push --set-upstream origin $branchName ;; removed as doesn't work reliably
 
-yay -Sy # multilib database download from new pacman.conf
+paru -Sy # multilib database download from new pacman.conf
 
 echo 'root level Visuals? [y/n]'
 read -n 1 answer
 if [ "$answer" = "y" ]; then
-yay -S terminus-font os-prober --noconfirm # os-prober to find potential dual-boot
+paru -S terminus-font os-prober --noconfirm # os-prober to find potential dual-boot
 mkdir ~/opt/
 (
     cd ~/opt
@@ -160,7 +160,7 @@ touch ~/.cache/bash/history
 echo 'Install yadm? [y/n]'
 read -n 1 answer
 if [ "$answer" = "y" ]; then
-yay -S --answerdiff N --answerclean N yadm
+paru -S --answerdiff N --answerclean N yadm
 yadm clone git@github.com:Wacken/.dotFiles.git
 yadm reset --hard
 fi
@@ -168,7 +168,7 @@ fi
 echo 'install tools? [y/n]'
 read -n 1 answer
 if [ "$answer" = "y" ]; then
-yay -S rclone rsync simple-mtpfs udiskie cronie
+paru -S rclone rsync simple-mtpfs udiskie cronie
 fi
 
 echo 'install default programs? [y/n]'
@@ -190,7 +190,7 @@ echo 'install browser? [y/n]'
 read -n 1 answer
 if [ "$answer" = "y" ]; then
 # gtk2 needed,as you want to popup a pinentry-gtk-2 window from browser to input gpg key
-yay -S brave-bin browserpass-chromium gtk2
+paru -S brave-bin browserpass-chromium gtk2
 fi
 
 echo 'rust install'
@@ -204,14 +204,14 @@ fi
 echo 'install other programms? [y/n]'
 read -n 1 answer
 if [ "$answer" = "y" ]; then
-yay -S youtube-music-bin discord surfshark-vpn redshift-minimal nitrogen thunderbird
-# yay -S picom-joanburg-git nautilus simplescreenrecorder libreoffice-still foxitreader
+paru -S youtube-music-bin discord redshift-minimal
+# paru -S picom-joanburg-git nautilus simplescreenrecorder libreoffice-still foxitreader
 fi
 
 echo 'install sound with bluetooth? [y/n]'
 read -n 1 answer
 if [ "$answer" = "y" ]; then
-yay -S pavucontrol pulseaudio-alsa pulseaudio-bluetooth bluez-utils
+paru -S pipewire pipewire-alsa pipewire-pulse bluez-utils pavucontrol
 sudo systemctl enable --now bluetooth
 bluetoothctl power on
 bluetoothctl agent on
@@ -222,21 +222,21 @@ fi
 echo 'install timeshift [y/n]'
 read -n 1 answer
 if [ "$answer" = "y" ]; then
-yay -S timeshift
+paru -S timeshift
 fi
 
 echo 'install games? [y/n]'
 read -n 1 answer
 if [ "$answer" = "y" ]; then
 sudo pacman -S wine winetricks wine-mono wine-gecko lib32-libpulse--noconfirm
-yay -S proton-ge-custom-bin protontricks
+paru -S proton-ge-custom-bin protontricks
 sudo pacman -S lutris --noconfirm
 fi
 
 echo 'install japanese language input? [y/n]'
 read -n 1 answer
 if [ "$answer" = "y" ]; then
-yay -S adobe-source-han-sans-jp-fonts ibus-mozc
+paru -S adobe-source-han-sans-jp-fonts ibus-mozc
 echo 'setup ibus in input ctrl space, in languages add mozc and dvorak programmer
 and in the advanced tab set "use system keyboard"'
 ibus-setup
