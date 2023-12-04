@@ -143,13 +143,14 @@ if [ "$answer" = "y" ]; then
 git clone git@github.com:Wacken/bins.git ~/Files/scripts
 sudo pacman -S stow --noconfirm
 mkdir ~/.local/bin
-stow -d ~/Files/scripts -t ~ -R bins -v
+stow -d ~/Files/scripts -t ~/.local/bin -R bins -v
 fi
 
 echo 'setup xmonad? [y/n]'
 read -n 1 answer
 if [ "$answer" = "y" ]; then
 mkdir ~/.local/share/xmonad
+
 sudo pacman -S xmonad xmonad-contrib xmobar kitty dmenu --noconfirm
 fi
 
