@@ -261,3 +261,10 @@ fi
 echo 'install yomichan?'
 echo 'go to https://foosoft.net/projects/yomichan/#dictionaries and download the dicts'
 echo 'dont forget too import the settings'
+
+
+echo 'install shell tools emacs[y/n]'
+read -n -r 1 answer
+if [ "$answer" = "y" ]; then
+paru -S shfmt shellcheck bash-language-server
+fi
