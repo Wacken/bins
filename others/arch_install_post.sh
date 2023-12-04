@@ -2,7 +2,7 @@
 set -eo pipefail
 
 echo "Do you already have an SSH key uploaded to github [y/n]"
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "n" ]; then
     ssh-keygen -t ed25519 -C "sebastianwalchi@gmail.com"
     sudo mkdir /root/.ssh
@@ -12,7 +12,7 @@ if [ "$answer" = "n" ]; then
 fi
 
 echo "Do you have already moved the GPG keys [y/n/x]"
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
     echo "setting up gpg"
     mkdir -p ~/.local/share/gnupg
@@ -38,7 +38,7 @@ fi
 echo
 if [ -z "$1" ]; then
     echo "Enter etc branch name"
-    read branchName
+    read -r branchName
 else
     branchName=$1
 fi
@@ -57,7 +57,7 @@ paru --noconfirm
 rm -rf paru/
 
 echo 'setup etc files? [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 (
     cd /etc
@@ -97,7 +97,7 @@ fi
 paru -Sy # multilib database download from new pacman.conf
 
 echo 'root level Visuals? [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 paru -S terminus-font os-prober --noconfirm # os-prober to find potential dual-boot
 mkdir ~/opt/
@@ -113,7 +113,7 @@ sudo grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
 echo 'Setup emacs? [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 sudo pacman -S emacs --noconfirm
 git clone git@github.com:Wacken/doom.git ~/.config/doom
@@ -138,14 +138,14 @@ git clone git@github.com:Wacken/passstore.git ~/.local/share/pass
 fi
 
 echo 'setup Org files? [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 mkdir ~/Files
 git clone git@github.com:Wacken/Org-Files.git ~/Files/Org
 fi
 
 echo 'setup local scripts? [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 git clone git@github.com:Wacken/bins.git ~/Files/scripts
 sudo pacman -S stow --noconfirm
@@ -174,7 +174,7 @@ mkdir ~/.cache/bash
 touch ~/.cache/bash/history
 
 echo 'Install yadm? [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 paru -S --answerdiff N --answerclean N yadm
 yadm clone git@github.com:Wacken/.dotFiles.git
@@ -182,13 +182,13 @@ yadm reset --hard
 fi
 
 echo 'install tools? [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 paru -S rclone rsync simple-mtpfs udiskie cronie
 fi
 
 echo 'install default programs? [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 sudo pacman -S dunst vlc feh ufw flameshot --noconfirm
 sudo pacman -S inetutils # for hostname command in backup script
@@ -197,13 +197,13 @@ sudo systemctl enable --now ufw
 fi
 
 echo 'fonts setup? [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 sudo pacman -S ttf-fira-code ttf-dejavu noto-fonts-emoji --noconfirm
 fi
 
 echo 'install browser? [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 # gtk2 needed,as you want to popup a pinentry-gtk-2 window from browser to input gpg key
 paru -S brave-bin browserpass-chromium gtk2
@@ -212,20 +212,20 @@ fi
 echo 'rust install'
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 echo 'Setup standard rust programs? [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 sudo pacman -S exa bat ripgrep fd btop dust starship zoxide --noconfirm
 fi
 
 echo 'install other programms? [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 paru -S youtube-music-bin discord redshift-minimal
 # paru -S picom-joanburg-git nautilus simplescreenrecorder libreoffice-still foxitreader
 fi
 
 echo 'install sound with bluetooth? [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 paru -S pipewire pipewire-alsa pipewire-pulse bluez-utils pavucontrol
 sudo systemctl enable --now bluetooth
@@ -236,13 +236,13 @@ bluetoothctl default-agent
 fi
 
 echo 'install timeshift [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 paru -S timeshift
 fi
 
 echo 'install games? [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 sudo pacman -S wine winetricks wine-mono wine-gecko lib32-libpulse--noconfirm
 paru -S proton-ge-custom-bin protontricks
@@ -250,7 +250,7 @@ sudo pacman -S lutris --noconfirm
 fi
 
 echo 'install japanese language input? [y/n]'
-read -n 1 answer
+read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 paru -S adobe-source-han-sans-jp-fonts ibus-mozc
 echo 'setup ibus in input ctrl space, in languages add mozc and dvorak programmer
