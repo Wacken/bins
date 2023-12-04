@@ -90,7 +90,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 modprobe efivarfs
 
 curl -Lo /mnt/arch_install_chroot.sh https://raw.githubusercontent.com/Wacken/bins/master/others/arch_install_chroot.sh
-arch-chroot /mnt /bin/bash arch_install_chroot.sh "$user" "$password" "$hostname" "$partition"
+arch-chroot /mnt /bin/bash arch_install_chroot.sh "$user" "$password" "$hostname"
 
 umount -R /mnt
 reboot

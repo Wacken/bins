@@ -3,7 +3,6 @@
 user=$1
 password=$2
 hostname=$3
-partition=$4
 
 echo "time zone settings; set it like Europe/Berlin"
 read -r timezone
@@ -76,13 +75,13 @@ pacman -S vulkan-icd-loader lib32-vulkan-icd-loader lib32-nvidia-utils --noconfi
 # sudo localectl --no-convert set-x11-keymap us pc105 dvp
 
 echo 'Setting up user'
-read -t 1 -n 1000000 _ # discard previous input
+read -r -t 1 -n 1000000 _ # discard previous input
 
 pacman -S sudo --noconfirm
 
-echo 'root:'$password | chpasswd
-useradd -m -G wheel,audio,video,optical,storage,input $user
-echo $user:$password | chpasswd
+echo "root:$password" | chpasswd
+useradd -m -G wheel,audio,video,optical,storage,input "$user"
+echo "$user:$password" | chpasswd
 echo '%wheel ALL=(ALL) ALL' >>/etc/sudoers
 
 exit
