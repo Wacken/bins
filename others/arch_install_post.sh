@@ -11,7 +11,7 @@ if [ "$answer" = "n" ]; then
     exit
 fi
 
-echo "Do you have already moved the GPG keys [y/n/x]"
+echo "Do you have already moved the GPG keys [y/n/x] (x is skipping)"
 read -n -r 1 answer
 if [ "$answer" = "y" ]; then
     echo "setting up gpg"
@@ -21,6 +21,24 @@ if [ "$answer" = "y" ]; then
     gpg --import ~/my_public_key.asc
     shred -u ~/my_public_key.asc
     shred -u ~/my_private_key.asc
+    echo ""
+    cat <<EOF
+You also need to change the trust of this key, otherwise some stuff won't work. Thefore use
+(https://stackoverflow.com/questions/33361068/gnupg-there-is-no-assurance-this-key-belongs-to-the-named-user)
+
+gpg --edit-key <KEY_ID>
+gpg> trust
+
+1 = I don't know or won't say
+2 = I do NOT trust
+3 = I trust marginally
+4 = I trust fully
+5 = I trust ultimately
+m = back to the main menu
+
+Be sure you've changed this. After that please:
+EOF
+
 elif [ "$answer" = "x" ]; then
      echo "skipping setup"
 else
