@@ -155,13 +155,6 @@ mkdir ~/.local/share/pass
 git clone git@github.com:Wacken/passstore.git ~/.local/share/pass
 fi
 
-echo 'setup Org files? [y/n]'
-read -n -r 1 answer
-if [ "$answer" = "y" ]; then
-mkdir ~/Files
-git clone git@github.com:Wacken/Org-Files.git ~/Files/Org
-fi
-
 echo 'setup local scripts? [y/n]'
 read -n -r 1 answer
 if [ "$answer" = "y" ]; then
@@ -194,23 +187,30 @@ touch ~/.cache/bash/history
 echo 'Install yadm? [y/n]'
 read -n -r 1 answer
 if [ "$answer" = "y" ]; then
-paru -S --answerdiff N --answerclean N yadm
+paru -S --answerdiff N --answerclean N yadm --noconfirm
 yadm clone git@github.com:Wacken/.dotFiles.git
 yadm reset --hard
+fi
+
+echo 'setup Org files? [y/n]'
+read -n -r 1 answer
+if [ "$answer" = "y" ]; then
+mkdir ~/Files
+git clone git@github.com:Wacken/Org-Files.git ~/Files/Org
+sudo systemctl --user enable --now ~/.config/systemd/user/org_file_sync.timer
 fi
 
 echo 'install tools? [y/n]'
 read -n -r 1 answer
 if [ "$answer" = "y" ]; then
-paru -S rclone rsync simple-mtpfs udiskie cronie
+paru -S simple-mtpfs udiskie cronie --noconfirm
+sudo systemctl enable --now cronie
 fi
 
 echo 'install default programs? [y/n]'
 read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 sudo pacman -S dunst vlc feh ufw flameshot --noconfirm
-sudo pacman -S inetutils # for hostname command in backup script
-sudo systemctl enable --now cronie
 sudo systemctl enable --now ufw
 fi
 
@@ -280,9 +280,25 @@ echo 'install yomichan?'
 echo 'go to https://foosoft.net/projects/yomichan/#dictionaries and download the dicts'
 echo 'dont forget too import the settings'
 
-
 echo 'install shell tools emacs[y/n]'
 read -n -r 1 answer
 if [ "$answer" = "y" ]; then
-paru -S shfmt shellcheck bash-language-server
+paru -S shfmt shellcheck bash-language-server --noconfirm
+fi
+
+echo 'install backup tools? [y/n]'
+read -n -r 1 answer
+if [ "$answer" = "y" ]; then
+sudo pacman -S borg rclone rsync inetutils --noconfirm # for hostname command in backup script
+sudo systemctl --user enable --now ~/.config/systemd/user/borg_backup.timer
+sudo systemctl --user enable --now ~/.config/systemd/user/rclone_sync.timer
+echo 'initialize rclone repositories'
+echo 'main repository for friskymail drive'
+echo 'books repository for gamemail mega'
+fi
+
+echo 'install anki? [y/n]'
+read -n -r 1 answer
+if [ "$answer" = "y" ]; then
+paru -S anki-bin --noconfirm
 fi
