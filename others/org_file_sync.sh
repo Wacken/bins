@@ -2,4 +2,7 @@
 set -euo pipefail
 
 cd ~/Files/Org
-~/.local/bin/git-sync
+git pull
+git add .
+git commit -m "Sync from $(hostname) $(date +"%Y-%m-%d %H:%M:%S")"
+git push
