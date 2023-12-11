@@ -112,7 +112,7 @@ if [ "$answer" = "y" ]; then
 fi
 # git push --set-upstream origin $branchName ;; removed as doesn't work reliably
 
-paru -Sy # multilib database download from new pacman.conf
+paru -Sy --noconfirm # multilib database download from new pacman.conf
 
 echo 'root level Visuals? [y/n]'
 read -n -r 1 answer
@@ -184,7 +184,7 @@ paru -Rns alacritty betterlockscreen xorg-xinput xorg-bdftopcf xorg-docs xorg-fo
 rm -rf ~/bin
 rm -rf ~/.srcs
 rm -rf ~/.config/alacritty.yml
-paru -S betterlockscreen xorg-xinput rofi-pass
+paru -S betterlockscreen xorg-xinput rofi-pass --noconfirm
 fi
 
 echo 'create default environment files'
@@ -224,7 +224,7 @@ echo 'install browser? [y/n]'
 read -n -r 1 answer
 if [ "$answer" = "y" ]; then
 # gtk2 needed,as you want to popup a pinentry-gtk-2 window from browser to input gpg key
-paru -S brave-bin browserpass-chromium gtk2
+paru -S brave-bin browserpass-chromium gtk2 --noconfirm
 fi
 
 echo 'rust install'
@@ -238,14 +238,14 @@ fi
 echo 'install other programms? [y/n]'
 read -n -r 1 answer
 if [ "$answer" = "y" ]; then
-paru -S youtube-music-bin discord redshift-minimal
-# paru -S picom-joanburg-git nautilus simplescreenrecorder libreoffice-still foxitreader
+paru -S youtube-music-bin discord redshift-minimal --noconfirm
+# paru -S picom-joanburg-git nautilus simplescreenrecorder libreoffice-still foxitreader --noconfirm
 fi
 
 echo 'install sound with bluetooth? [y/n]'
 read -n -r 1 answer
 if [ "$answer" = "y" ]; then
-paru -S pipewire pipewire-alsa pipewire-pulse bluez-utils pavucontrol
+paru -S pipewire pipewire-alsa pipewire-pulse bluez-utils pavucontrol --noconfirm
 sudo systemctl enable --now bluetooth
 bluetoothctl power on
 bluetoothctl agent on
@@ -256,21 +256,21 @@ fi
 echo 'install timeshift [y/n]'
 read -n -r 1 answer
 if [ "$answer" = "y" ]; then
-paru -S timeshift
+paru -S timeshift --noconfirm
 fi
 
 echo 'install games? [y/n]'
 read -n -r 1 answer
 if [ "$answer" = "y" ]; then
-sudo pacman -S wine winetricks wine-mono wine-gecko lib32-libpulse--noconfirm
-paru -S proton-ge-custom-bin protontricks
+sudo pacman -S wine winetricks wine-mono wine-gecko lib32-libpulse --noconfirm
+paru -S proton-ge-custom-bin protontricks --noconfirm
 sudo pacman -S lutris --noconfirm
 fi
 
 echo 'install japanese language input? [y/n]'
 read -n -r 1 answer
 if [ "$answer" = "y" ]; then
-paru -S adobe-source-han-sans-jp-fonts ibus-mozc
+paru -S adobe-source-han-sans-jp-fonts ibus-mozc --noconfirm
 echo 'setup ibus in input ctrl space, in languages add mozc and dvorak programmer
 and in the advanced tab set "use system keyboard"'
 ibus-setup
