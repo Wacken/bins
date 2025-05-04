@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BACKUP_DIR="/data/Backup/postgresql"
+BACKUP_DIR="/data/Backups/postgresql"
 TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
 FILENAME="pg_backup_$TIMESTAMP.sql"
 
